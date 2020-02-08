@@ -12,6 +12,18 @@ PHP_DOCKERFILE_DIR=${DOCKER_DIR}/services/php
 
 PREFIX="pol-pol-backend"
 
+git_clone() { #command
+  if ! test -d "${PROJECT_DIR}"; then
+    git clone git@github.com:/x0st/pol-backend.git "${PROJECT_DIR}"
+  fi
+}
+
+git_pull() { #command
+  if ! test -d "${PROJECT_DIR}"; then
+    git pull -C "${PROJECT_DIR}" origin "$(git rev-parse --abbrev-ref HEAD)"
+  fi
+}
+
 install() { #command
   docker run \
     --rm \

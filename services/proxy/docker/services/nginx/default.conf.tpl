@@ -8,7 +8,7 @@ server {
 }
 
 server {
-    server_name api.%HOST%;
+    server_name www.api.%HOST% api.%HOST%;
 
     listen 80;
     listen 443 ssl;
@@ -29,7 +29,7 @@ server {
 
 
 server {
-    server_name %HOST%;
+    server_name www.%HOST% %HOST%;
 
     listen 80;
     listen 443 ssl;

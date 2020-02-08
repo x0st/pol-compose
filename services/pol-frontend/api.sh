@@ -8,6 +8,18 @@ NGINX_DOCKERFILE_DIR="${DOCKER_DIR}/services/nginx"
 
 PREFIX="pol-pol-frontend"
 
+git_clone() { #command
+  if ! test -d "${PROJECT_DIR}"; then
+    git clone git@github.com:/x0st/pol-frontend.git "${PROJECT_DIR}"
+  fi
+}
+
+git_pull() { #command
+  if ! test -d "${PROJECT_DIR}"; then
+    git pull -C "${PROJECT_DIR}" origin "$(git rev-parse --abbrev-ref HEAD)"
+  fi
+}
+
 up() { #command
   if __docker_container_running "${PREFIX}-nginx"; then
     echo "Already running! Shut if down first."

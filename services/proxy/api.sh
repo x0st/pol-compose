@@ -5,6 +5,7 @@
 SERVICE_DIR="${COMPOSE}/services/proxy"
 DOCKER_DIR="${SERVICE_DIR}/docker"
 NGINX_DOCKERFILE_DIR="${DOCKER_DIR}/services/nginx"
+SSL_DIR="${NGINX_DOCKERFILE_DIR}/ssl"
 
 SSL_KEY_FILE="${NGINX_DOCKERFILE_DIR}/ssl/domain.key"
 SSL_CERTIFICATE_FILE="${NGINX_DOCKERFILE_DIR}/ssl/domain.crt"
@@ -17,6 +18,8 @@ generate_ssl() {
   __replace --in="${DOCKER_DIR}/csr.config.tpl" --out="${COMPOSE}/.tmp/csr.config" \
                   --what="KEY"  --with="${SSL_KEY_FILE}" \
                   --what="HOST" --with="${HOST}"
+
+  test -d "${SSL_DIR}" || mkdir "${SSL_DIR}"
 
   openssl genrsa -out "${SSL_KEY_FILE}" 2048
   openssl req -config "${COMPOSE}/.tmp/csr.config" -new -key "${SSL_KEY_FILE}" -out "${COMPOSE}/.tmp/domain.csr" -verbose
@@ -74,7 +77,7 @@ down() { #command
 restart() { #command
   BUILD=
 
-  for ARG in ${@}; do
+  for _ in ${@}; do
     case ${1} in
     -b|--build)
       BUILD=--build
