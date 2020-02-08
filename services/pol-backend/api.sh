@@ -19,7 +19,7 @@ git_clone() { #command
 }
 
 git_pull() { #command
-  if ! test -d "${PROJECT_DIR}"; then
+  if test -d "${PROJECT_DIR}"; then
     git pull -C "${PROJECT_DIR}" origin "$(git rev-parse --abbrev-ref HEAD)"
   fi
 }
